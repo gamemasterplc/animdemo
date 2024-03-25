@@ -3,9 +3,9 @@ include $(N64_INST)/include/n64.mk
 
 ANIMSPR_TOOL = tools/mkanimspr/mkanimspr
 
-src = animdemo.c animsprite.c
+src = animdemo.c animsprite.c t3ddebug.c
 assets_spranm = $(wildcard assets/*.spranm)
-assets_png = tiles.png
+assets_png = tiles.png font.ia4.png
 
 assets_conv = $(addprefix filesystem/,$(notdir $(assets_spranm:%.spranm=%.aspr))) \
 	$(addprefix filesystem/,$(notdir $(assets_png:%.png=%.sprite)))

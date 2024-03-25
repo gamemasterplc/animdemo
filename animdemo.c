@@ -1,11 +1,11 @@
 #include "libdragon.h"
 #include "animsprite.h"
+#include "t3ddebug.h"
 
 #include <malloc.h>
 #include <math.h>
 
 static sprite_t *tiles_sprite;
-static rspq_block_t *tiles_block;
 static AnimSprite *anim_sprite;
 
 void render(int cur_frame)
@@ -15,46 +15,10 @@ void render(int cur_frame)
     rdpq_attach_clear(disp, NULL);
 
     rdpq_set_mode_copy(false);
-    rspq_block_run(tiles_block);
-    
-    // Draw the brew sprites. Use standard mode because copy mode cannot handle
-    // scaled sprites.
-    rdpq_debug_log_msg("sprites");
-    rdpq_set_mode_standard();
-    rdpq_mode_filter(FILTER_BILINEAR);
-    rdpq_mode_alphacompare(1);                // colorkey (draw pixel with alpha >= 1)
-	sprite_t *sprite = AnimSpriteGetSpriteCurr(anim_sprite);
-	
-	rdpq_sprite_blit(sprite, 160, 120, NULL);
-	
-    rdpq_detach_show();
-}
-
-int main()
-{
-    debug_init_isviewer();
-    debug_init_usblog();
-
-    display_init(RESOLUTION_320x240, DEPTH_16_BPP, 3, GAMMA_NONE, FILTERS_RESAMPLE);
-
-    joypad_init();
-    timer_init();
-
     uint32_t display_width = display_get_width();
     uint32_t display_height = display_get_height();
-    
-    dfs_init(DFS_DEFAULT_LOCATION);
-
-    rdpq_init();
-    rdpq_debug_start();
-
-
-    tiles_sprite = sprite_load("rom:/tiles.sprite");
-
-    surface_t tiles_surf = sprite_get_pixels(tiles_sprite);
-
-    // Create a block for the background, so that we can replay it later.
-    rspq_block_begin();
+	
+	surface_t tiles_surf = sprite_get_pixels(tiles_sprite);
 
     // Check if the sprite was compiled with a paletted format. Normally
     // we should know this beforehand, but for this demo we pretend we don't
@@ -91,7 +55,48 @@ int main()
     
     // Pop the mode stack if we pushed it before
     if (tlut) rdpq_mode_pop();
-    tiles_block = rspq_block_end();
+    
+	rdpq_set_mode_standard();
+	rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
+	rdpq_mode_blender(RDPQ_BLENDER_MULTIPLY);
+	for(int i=0; i<40; i++) {
+		rdpq_set_prim_color(RGBA32(255, 0, 0, 20));
+		rdpq_fill_rectangle(0, 0, 640, 480);
+	}
+    // Draw the brew sprites. Use standard mode because copy mode cannot handle
+    // scaled sprites.
+    rdpq_debug_log_msg("sprites");
+    rdpq_set_mode_standard();
+    rdpq_mode_filter(FILTER_BILINEAR);
+    rdpq_mode_alphacompare(1);                // colorkey (draw pixel with alpha >= 1)
+	sprite_t *sprite = AnimSpriteGetSpriteCurr(anim_sprite);
+	
+	rdpq_sprite_blit(sprite, 320, 240, NULL);
+	t3d_debug_print_start();
+	t3d_debug_printf(530, 36, "%.1f FPS\n", display_get_fps());
+
+    rdpq_detach_show();
+}
+
+int main()
+{
+    debug_init_isviewer();
+    debug_init_usblog();
+
+    display_init(RESOLUTION_640x480, DEPTH_16_BPP, 3, GAMMA_NONE, FILTERS_RESAMPLE);
+
+    joypad_init();
+    timer_init();
+
+    dfs_init(DFS_DEFAULT_LOCATION);
+
+    rdpq_init();
+    rdpq_debug_start();
+
+
+    tiles_sprite = sprite_load("rom:/tiles.sprite");
+
+	t3d_debug_print_init();
 	
 	anim_sprite = AnimSpriteLoad("rom:/paddle.aspr");
     int cur_frame = 0;
