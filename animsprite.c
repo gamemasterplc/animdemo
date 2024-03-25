@@ -4,7 +4,7 @@
 
 #define PTR_DECODE(base, ptr) ((void*)(((uint8_t*)(base)) + (uint32_t)(ptr)))
 
-#define MAX_STREAM_BUFS 3
+#define MAX_STREAM_BUFS 2
 
 typedef struct anim_sprite {
 	ASPRData *data;
