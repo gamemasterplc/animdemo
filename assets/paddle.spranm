@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animsprite>
+	<animations>
+		<animation name="grow" delay="6">
+			<frame image="paddle_1"/>
+			<frame image="paddle_2"/>
+			<frame image="paddle_3"/>
+			<frame image="paddle_4"/>
+			<frame image="paddle_5" delay="15"/>
+			<frame image="paddle_6"/>
+			<frame image="paddle_7"/>
+			<frame image="paddle_8"/>
+			<frame image="paddle_9"/>
+		</animation>
+		<animation name="shrink" delay="6">
+			<frame image="paddle_9"/>
+			<frame image="paddle_8"/>
+			<frame image="paddle_7"/>
+			<frame image="paddle_6"/>
+			<frame image="paddle_5" delay="15"/>
+			<frame image="paddle_4"/>
+			<frame image="paddle_3"/>
+			<frame image="paddle_2"/>
+			<frame image="paddle_1"/>
+		</animation>
+		<animation name="bounce" delay="6">
+			<frame image="paddle_1"/>
+			<frame image="paddle_2"/>
+			<frame image="paddle_3"/>
+			<frame image="paddle_4"/>
+			<frame image="paddle_5" delay="15"/>
+			<frame image="paddle_6"/>
+			<frame image="paddle_7"/>
+			<frame image="paddle_8"/>
+			<frame image="paddle_9"/>
+			<frame image="paddle_8"/>
+			<frame image="paddle_7"/>
+			<frame image="paddle_6"/>
+			<frame image="paddle_5" delay="15"/>
+			<frame image="paddle_4"/>
+			<frame image="paddle_3"/>
+			<frame image="paddle_2"/>
+			<frame image="paddle_1"/>
+		</animation>
+		<animation name="idle_big">
+			<frame image="paddle_9"/>
+		</animation>
+		<animation name="idle_small">
+			<frame image="paddle_1"/>
+		</animation>
+	</animations>
+	<images>
+		<image filename="paddle_1.png" id="paddle_1" format="CI8"/>
+		<image filename="paddle_2.png" id="paddle_2" format="CI8"/>
+		<image filename="paddle_3.png" id="paddle_3" format="CI8"/>
+		<image filename="paddle_4.png" id="paddle_4" format="CI8"/>
+		<image filename="paddle_5.png" id="paddle_5" format="CI8"/>
+		<image filename="paddle_6.png" id="paddle_6" format="CI8"/>
+		<image filename="paddle_7.png" id="paddle_7" format="CI8"/>
+		<image filename="paddle_8.png" id="paddle_8" format="CI8"/>
+		<image filename="paddle_9.png" id="paddle_9" format="CI8"/>
+	</images>
+</animsprite>

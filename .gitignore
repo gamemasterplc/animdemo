@@ -1,0 +1,5 @@
+filesystem/
+build/
+tools/mkanimspr/mkanimspr
+tools/mkanimspr/build/
+*.z64
