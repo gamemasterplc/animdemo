@@ -16,6 +16,7 @@ typedef struct anim_sprite {
 	uint32_t sprite_romofs;
 	bool loop;
 	bool pause;
+	bool dirty;
 	float speed;
 } AnimSprite;
 
@@ -77,6 +78,7 @@ AnimSprite *AnimSpriteLoad(const char *path)
 	sprite->sprite_romofs = 0;
 	sprite->loop = false;
 	sprite->pause = false;
+	sprite->dirty = true;
 	sprite->speed = 1.0f;
 	
 	
@@ -94,7 +96,6 @@ AnimSprite *AnimSpriteLoad(const char *path)
 			sprite->stream_buf[i] = malloc_uncached(data_size);
 		}
 	}
-	UpdateSpriteFrame(sprite);
 	return sprite;
 }
 
@@ -165,27 +166,28 @@ void AnimSpriteUpdate(AnimSprite *sprite, float dt)
 	while(sprite->loop && sprite->time > anim->total_time) {
 		sprite->time -= anim->total_time;
 		sprite->frame_idx = 0;
+		sprite->dirty = true;
 	}
 	if(sprite->frame_idx < anim->num_frames+1) {
-		int old_frame = sprite->frame_idx;
 		while(sprite->time > anim->frames[sprite->frame_idx+1].time) {
 			sprite->frame_idx++;
+			sprite->dirty = true;
 			if(sprite->frame_idx >= anim->num_frames+1) {
 				break;
 			}
 		}
-		if(sprite->frame_idx != old_frame) {
-			UpdateSpriteFrame(sprite);
-		}
-		
 	}		
 }
 
-sprite_t *AnimSpriteGetSpriteCurr(AnimSprite *sprite)
+sprite_t *AnimSpriteGetSprite(AnimSprite *sprite)
 {
 	int buffer;
 	if(sprite->data->sprite_data) {
 		return sprite->data->sprite_data->sprite[GetImageIdx(sprite)];
+	}
+	if(sprite->dirty) {
+		UpdateSpriteFrame(sprite);
+		sprite->dirty = false;
 	}
 	buffer = sprite->buffer;
 	if(buffer == 0) {

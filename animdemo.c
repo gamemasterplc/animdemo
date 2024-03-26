@@ -59,7 +59,7 @@ void render(int cur_frame)
 	rdpq_set_mode_standard();
 	rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
 	rdpq_mode_blender(RDPQ_BLENDER_MULTIPLY);
-	for(int i=0; i<40; i++) {
+	for(int i=0; i<5; i++) {
 		rdpq_set_prim_color(RGBA32(255, 0, 0, 20));
 		rdpq_fill_rectangle(0, 0, 640, 480);
 	}
@@ -69,7 +69,7 @@ void render(int cur_frame)
     rdpq_set_mode_standard();
     rdpq_mode_filter(FILTER_BILINEAR);
     rdpq_mode_alphacompare(1);                // colorkey (draw pixel with alpha >= 1)
-	sprite_t *sprite = AnimSpriteGetSpriteCurr(anim_sprite);
+	sprite_t *sprite = AnimSpriteGetSprite(anim_sprite);
 	
 	rdpq_sprite_blit(sprite, 320, 240, NULL);
 	t3d_debug_print_start();

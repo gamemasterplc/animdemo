@@ -16,6 +16,6 @@ void AnimSpriteSetSpeed(AnimSprite *sprite, float time);
 float AnimSpriteGetTime(AnimSprite *sprite);
 
 void AnimSpriteUpdate(AnimSprite *sprite, float dt);
-sprite_t *AnimSpriteGetSpriteCurr(AnimSprite *sprite);
+sprite_t *AnimSpriteGetSprite(AnimSprite *sprite);
 
 #endif
